@@ -1,4 +1,6 @@
 import './style.css';
+import reviewsFunc from './templates/reviews.hbs';
+console.log(reviewsFunc);
 
 ymaps.ready(init);
     var myMap;
