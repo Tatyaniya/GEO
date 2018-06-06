@@ -1,0 +1,14 @@
+<ul class="popup_review">
+    {{#each list}}
+		<li class="review_item">
+			<div class="review-title">
+				<div class="name">{{name}}</div>
+				<div class="place">{{place}}</divspan>
+				<div class="date">{{formatDate date}}</span>
+			</div>
+			<div class="review-content">
+				{{text}}
+			</div>
+		</li>
+	{{/each}}
+</ul>
