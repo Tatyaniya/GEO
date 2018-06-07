@@ -61,6 +61,7 @@ ul {
     position: absolute;
     top: 15px;
     right: 13px;
+    cursor: pointer;
 }
 
 #reviews {
@@ -130,4 +131,8 @@ ul {
 
 .name {
     font-weight: bold;
+}
+
+.hidden {
+    display: none;
 }
