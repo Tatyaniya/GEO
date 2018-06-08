@@ -11,8 +11,20 @@ function dateWrite() {
     if (month < 10) month = '0' + month;
 
     var year = date.getFullYear();
+
+    var hour = date.getHours();
+
+    if (hour < 10) hour = '0' + hour;
+
+    var minute = date.getMinutes();
+
+    if (minute < 10) minute = '0' + minute;
+
+    var second = date.getSeconds();
     
-    var d = day + '.' + month + '.' + year;
+    if (second < 10) second = '0' + second;
+
+    var d = day + '.' + month + '.' + year + ' ' + hour + '.' + minute + '.' + second;
    
     return d;
 }
