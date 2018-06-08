@@ -1,9 +1,20 @@
 import './style.css';
 import reviewsFunc from './templates/reviews.hbs';
+import { dateWrite } from './helper';
 
 const popup = document.getElementById('popup'),
-    popupCloze = document.getElementById('popup_close');
+    popupCloze = document.getElementById('popup_close'),
+    // записать отзывы
+    reviewsWrite = document.getElementById('reviews'),
+    // форма
+    inputName = document.getElementById('name'),
+    inputPlace = document.getElementById('place'),
+    inputImpression = document.getElementById('impression'),
+    save = document.getElementById('button-save');
 
+var formatDate = dateWrite();
+
+console.log(formatDate);
 // добавление карты
 ymaps.ready(init);
 
@@ -34,31 +45,26 @@ function init() {
     myMap.controls.remove('trafficControl'); // не показывать пробки
 }    
 
+// очистка инпутов
+function clearInput() {
+    inputName.value = '';
+    inputPlace.value = '';
+    inputImpression.value = '';
+}
+
+window.addEventListener('click', function () {
+    let target = e.target;
+
+    popup.style.top = target.pageX + 'px';
+    popup.style.left = target.pageY + 'px';
+    popup.classList.remove('hidden');
+    //popup.style.display='flex';
+    
+});
+
 // закрыть окно с отзывами
 popupCloze.addEventListener('click', () => {
     popup.classList.add('hidden');
-})
-
-/*const date = new Date(),
-    now = date.toLocaleString();*/
-
-function dateWrite() {
-    var date = new Date();
-
-    var day = date.getDate();
-
-    if(day < 10) day = '0' + day;
-
-    var month = date.getMonth() + 1;
-
-    if(month < 10) month = '0' + month;
-
-    var year = date.getFullYear();
-    
-    var d = day + '.' + month + '.' + year;
-   
-    return d;
-}
-
-var dd = dateWrite();
-console.log(dd);
+    //popup.style.display='none';
+    //clearInput();
+});
