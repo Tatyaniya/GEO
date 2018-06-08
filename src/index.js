@@ -58,13 +58,13 @@ window.addEventListener('click', function (e) {
 
     popup.style.top = target.pageX + 'px';
     popup.style.left = target.pageY + 'px';
-    popup.style.display='flex';
+    popup.classList.remove('hidden');
     
 });
 
 // закрыть окно с отзывами
 window.addEventListener('click', (e) => {
     if (e.target.id === 'popup_close') {
-        popup.style.display='none';
+        popup.classList.add('hidden');
     }
 });
