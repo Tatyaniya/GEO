@@ -52,19 +52,19 @@ function clearInput() {
     inputImpression.value = '';
 }
 
-window.addEventListener('click', function () {
+// открыть окно с отзывами
+window.addEventListener('click', function (e) {
     let target = e.target;
 
     popup.style.top = target.pageX + 'px';
     popup.style.left = target.pageY + 'px';
-    popup.classList.remove('hidden');
-    //popup.style.display='flex';
+    popup.style.display='flex';
     
 });
 
 // закрыть окно с отзывами
-popupCloze.addEventListener('click', () => {
-    popup.classList.add('hidden');
-    //popup.style.display='none';
-    //clearInput();
+window.addEventListener('click', (e) => {
+    if (e.target.id === 'popup_close') {
+        popup.style.display='none';
+    }
 });
