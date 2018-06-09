@@ -10,7 +10,8 @@ const popup = document.getElementById('popup'),
     inputName = document.getElementById('name'),
     inputPlace = document.getElementById('place'),
     inputImpression = document.getElementById('impression'),
-    save = document.getElementById('button-save');
+    save = document.getElementById('button-save'),
+    address = [];
 
 var formatDate = dateWrite();
 
@@ -19,6 +20,7 @@ console.log(formatDate);
 ymaps.ready(init);
 
 var myMap,
+    clusterer,
     myPlacemark;
 
 function init() {
@@ -33,45 +35,48 @@ function init() {
     clusterer = new ymaps.Clusterer({
         preset: 'islands#invertedVioletClusterIcons',
         clusterDisableClickZoom: true, // запрет на увеличение
-        openBalloonOnClick: false
+        openBalloonOnClick: true
     });
 
     myMap.geoObjects.add(clusterer);
     //myMap.geoObjects.add(myPlacemark);
 
     myMap.controls.remove('trafficControl'); // не показывать пробки
+
+    return clusterer;
 }
 
 // создание метки
 function createPlacemark(coords) {
     return new ymaps.Placemark([50.45, 30.52],
-        { preset: 'islands#invertedVioletClusterIcons',
-        clusterDisableClickZoom: true, // запрет на увеличение
-        openBalloonOnClick: false
-});
+        { preset: 'islands#invertedRedClusterIcons' });
 }
 
-// открыть окно с отзывами
-window.addEventListener('click', function () {
-    popup.style.top = event.clientY + 'px';
-    popup.style.left = event.clientX + 'px';
-    popup.classList.remove('hidden');
-    
-});
-
 // закрыть окно с отзывами
-window.addEventListener('click', (e) => {
-    if (e.target.id === 'popup_close') {
+popupCloze.addEventListener('click', () => {
+    /*if (e.target.id === 'popup_close') {
         popup.classList.add('hidden');
-    }
+    }*/
+    popup.classList.add('hidden');
 });
 
 // Слушаем клик на карте.
 myMap.events.add('click', function (e) {
+    console.log(e);
     var coords = e.get('coords');
+    console.log(coords);
+    openPopup();
 
     createPlacemark(coords);
+    
 });
+
+// открытие окна с отзывами
+function openPopup() {
+    popup.style.top = event.clientY + 'px';
+    popup.style.left = event.clientX + 'px';
+    popup.classList.remove('hidden');
+}
 
 // очистка инпутов
 function clearInput() {
