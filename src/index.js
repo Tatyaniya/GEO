@@ -37,27 +37,24 @@ function init() {
     });
 
     myMap.geoObjects.add(clusterer);
+    //myMap.geoObjects.add(myPlacemark);
 
-    myPlacemark = new ymaps.Placemark([50.45, 30.52],
-        { preset: 'islands#blueHomeCircleIcon' });
-
-    myMap.geoObjects.add(myPlacemark); // добавить метку
     myMap.controls.remove('trafficControl'); // не показывать пробки
-}    
+}
 
-// очистка инпутов
-function clearInput() {
-    inputName.value = '';
-    inputPlace.value = '';
-    inputImpression.value = '';
+// создание метки
+function createPlacemark(coords) {
+    return new ymaps.Placemark([50.45, 30.52],
+        { preset: 'islands#invertedVioletClusterIcons',
+        clusterDisableClickZoom: true, // запрет на увеличение
+        openBalloonOnClick: false
+});
 }
 
 // открыть окно с отзывами
-window.addEventListener('click', function (e) {
-    let target = e.target;
-
-    popup.style.top = target.pageX + 'px';
-    popup.style.left = target.pageY + 'px';
+window.addEventListener('click', function () {
+    popup.style.top = event.clientY + 'px';
+    popup.style.left = event.clientX + 'px';
     popup.classList.remove('hidden');
     
 });
@@ -68,3 +65,17 @@ window.addEventListener('click', (e) => {
         popup.classList.add('hidden');
     }
 });
+
+// Слушаем клик на карте.
+myMap.events.add('click', function (e) {
+    var coords = e.get('coords');
+
+    createPlacemark(coords);
+});
+
+// очистка инпутов
+function clearInput() {
+    inputName.value = '';
+    inputPlace.value = '';
+    inputImpression.value = '';
+}
