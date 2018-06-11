@@ -11,12 +11,16 @@ const inputName = document.getElementById('name');
 const inputPlace = document.getElementById('place');
 const inputImpression = document.getElementById('impression');
 const save = document.getElementById('button-save');
-const comments = localStorage.getItem('comments') ? JSON.parse(localStorage.getItem('comments')) : [];
-const addressInput = document.getElementById('address');
-const coordsInput = document.getElementById('coords');
-const popupTitle = document.querySelector('.popup_title');
 const form = document.querySelector('.form');
 const inputsForValidation = [inputName, inputPlace, inputImpression];
+// скрытое поле для адреса
+const addressInput = document.getElementById('address');
+// скрытое поле для координат
+const coordsInput = document.getElementById('coords');
+// адрес в заголовке окна
+const popupTitle = document.querySelector('.popup_title');
+// массив с комментариями
+const comments = localStorage.getItem('comments') ? JSON.parse(localStorage.getItem('comments')) : [];
 
 // добавление карты
 ymaps.ready(init);
@@ -36,15 +40,18 @@ function init() {
     var objectManager = new ymaps.ObjectManager({
         clusterize: true,
         clusterDisableClickZoom: true,
-        clusterBalloonContentLayout: "cluster#balloonCarousel",
+        clusterBalloonContentLayout: 'cluster#balloonCarousel',
         preset: 'islands#darkOrangeClusterIcons',
         clusterBalloonContentLayoutWidth: 300,
         clusterBalloonContentLayoutHeight: 150
     });
 
+    // запрет открывать баллун по одиночной метке
     objectManager.options.set('geoObjectOpenBalloonOnClick', false);
+    // добавить objectManager
     myMap.geoObjects.add(objectManager);
 
+    // открыть окно при клике на одиночную метку
     objectManager.objects.events.add('click', (e) => {
         let objectId = e.get('objectId');
         let { address, coords } = comments[objectId];
@@ -53,10 +60,12 @@ function init() {
         togglePopup({ address, coords, isVisible: true });
     })
     
+    // закрывать окно отзывов при открытии баллуна
     objectManager.clusters.events.add('balloonopen', (e) => {
         togglePopup({ isVisible: false });
     })
 
+    // отобразить записанные метки
     function setMap() {
         comments.forEach((comment, i) => {
             objectManager.objects.add({
@@ -76,7 +85,7 @@ function init() {
         })
     }
     
-    // по клику на адрес в карусели открыть окно с отзывами
+    // по клику на адрес в карусели открыть окно с отзывами и закрыть баллун
     document.addEventListener('click', (e) => {
         let target = e.target;
 
@@ -90,6 +99,7 @@ function init() {
         }
     });
 
+    // обработчик клика по кнопке "сохранить"
     save.addEventListener('click', (e) => {
         e.preventDefault();
         let isValid = validateForm();
@@ -102,7 +112,7 @@ function init() {
             const text = inputImpression.value;
     
             setComment({ address, coords, name, place, text });
-            togglePopup({isVisible: false});
+            togglePopup({ isVisible: false });
             setMap();
         }
     });
@@ -131,7 +141,7 @@ function init() {
         togglePopup({ isVisible: false });
     });
 
-    // открытие окна с отзывами
+    // открытие/закрытие окна с отзывами
     function togglePopup({address, coords, isVisible}) {
         if (isVisible) {
             addressInput.value = address;
@@ -146,6 +156,7 @@ function init() {
         popup.classList.add('hidden');
     }
 
+    // показать комментарии в окне
     function getComments(address) {
         const filteredComments = comments.filter((comment) => {
             
@@ -165,6 +176,7 @@ function init() {
         reviewsWrite.innerHTML = templatedComments;
     }
 
+    // валидация формы
     function validateForm() {
         let isValid = true;
     
@@ -181,6 +193,7 @@ function init() {
         return isValid;   
     }
 
+    // записать комментарий
     function setComment({ address, coords, name, place, text }) {
         let comment = {
             address,
