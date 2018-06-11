@@ -117,7 +117,7 @@ function init() {
         }
     });
     
-    // Создаем клик на карте
+    // создаем клик на карте
     myMap.events.add('click', function (e) {
         let coords = e.get('coords');
 
@@ -136,7 +136,7 @@ function init() {
         })
     });
 
-    // закрыть окно с отзывами
+    // закрыть окно с отзывами при клике на крестик
     popupCloze.addEventListener('click', () => {
         togglePopup({ isVisible: false });
     });
