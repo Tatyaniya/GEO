@@ -2,7 +2,7 @@
     <div class="popup hidden" id="popup">
         <header class="popup_header">
             <div class="popup_title">
-                Невский пр., 78, Санкт-Петербург, 191025 
+                <!-- адрес -->
             </div>
             <img id="popup_close" alt="close" src="../src/icons/close.png">
         </header>
@@ -11,6 +11,8 @@
         </div>
         <form class="form">
             <h2 class="form_title">Ваш отзыв</h2>
+            <input type="hidden" id="address">
+            <input type="hidden" id="coords">
             <input class="form_input" type="text" name="name" id="name" placeholder="Ваше имя">
             <input class="form_input" type="text" name="place" id="place" placeholder="Укажите место">
             <textarea class="form_textarea" id="impression" type="text" name="impression" rows="9" cols="45" placeholder="Поделитесь впечатлениями"></textarea>
